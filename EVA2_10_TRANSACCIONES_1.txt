@@ -1,0 +1,261 @@
+MySQL Shell 8.0.43
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| credit_card        |
+| human_res          |
+| information_schema |
+| mysql              |
+| order_tbd          |
+| performance_schema |
+| prueba             |
+| sakila             |
+| sys                |
+| tbd1               |
+| tbd2               |
+| world              |
++--------------------+
+12 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  SQL > use mysql;
+Default schema set to `mysql`.
+Fetching global names, object names from `mysql` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  mysql  SQL > show tables;
++------------------------------------------------------+
+| Tables_in_mysql                                      |
++------------------------------------------------------+
+| columns_priv                                         |
+| component                                            |
+| db                                                   |
+| default_roles                                        |
+| engine_cost                                          |
+| func                                                 |
+| general_log                                          |
+| global_grants                                        |
+| gtid_executed                                        |
+| help_category                                        |
+| help_keyword                                         |
+| help_relation                                        |
+| help_topic                                           |
+| innodb_index_stats                                   |
+| innodb_table_stats                                   |
+| ndb_binlog_index                                     |
+| password_history                                     |
+| plugin                                               |
+| procs_priv                                           |
+| proxies_priv                                         |
+| replication_asynchronous_connection_failover         |
+| replication_asynchronous_connection_failover_managed |
+| replication_group_configuration_version              |
+| replication_group_member_actions                     |
+| role_edges                                           |
+| server_cost                                          |
+| servers                                              |
+| slave_master_info                                    |
+| slave_relay_log_info                                 |
+| slave_worker_info                                    |
+| slow_log                                             |
+| tables_priv                                          |
+| time_zone                                            |
+| time_zone_leap_second                                |
+| time_zone_name                                       |
+| time_zone_transition                                 |
+| time_zone_transition_type                            |
+| user                                                 |
++------------------------------------------------------+
+38 rows in set (0.0051 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > select user, host from user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| mysql.infoschema | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| prueba           | localhost |
+| prueba2          | localhost |
+| prueba3          | localhost |
+| root             | localhost |
++------------------+-----------+
+7 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > show grants for "prueba"@"localhost";
++----------------------------------------------------------+
+| Grants for prueba@localhost                              |
++----------------------------------------------------------+
+| GRANT USAGE ON *.* TO `prueba`@`localhost`               |
+| GRANT ALL PRIVILEGES ON `tbd2`.* TO `prueba`@`localhost` |
++----------------------------------------------------------+
+2 rows in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > show grants for "prueba2"@"localhost";
++---------------------------------------------+
+| Grants for prueba2@localhost                |
++---------------------------------------------+
+| GRANT USAGE ON *.* TO `prueba2`@`localhost` |
++---------------------------------------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > show grants for "prueba3"@"localhost";
++---------------------------------------------+
+| Grants for prueba3@localhost                |
++---------------------------------------------+
+| GRANT USAGE ON *.* TO `prueba3`@`localhost` |
++---------------------------------------------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > revoke insert on tbd2.* from "prueba"@"localhost";
+Query OK, 0 rows affected (0.0103 sec)
+ MySQL  localhost:3306 ssl  mysql  SQL > \connect --mc prueba@localhost
+Creating a Classic session to 'prueba@localhost'
+Please provide the password for 'prueba@localhost': **
+Save password for 'prueba@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Error during auto-completion cache update: Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
+Closing old connection...
+Your MySQL connection id is 11
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd2;
+Default schema set to `tbd2`.
+Fetching global names, object names from `tbd2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd2  SQL > show tables;
++----------------+
+| Tables_in_tbd2 |
++----------------+
+| asignatura     |
+| cliente        |
+| detallehorario |
+| estudiante     |
+| horario        |
+| producto       |
+| venta          |
+| ventadetalle   |
++----------------+
+8 rows in set (0.0030 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > desc venta;
++-----------+------+------+-----+---------+----------------+
+| Field     | Type | Null | Key | Default | Extra          |
++-----------+------+------+-----+---------+----------------+
+| idventa   | int  | NO   | PRI | NULL    | auto_increment |
+| fecha     | date | NO   |     | NULL    |                |
+| idcliente | int  | NO   | MUL | NULL    |                |
++-----------+------+------+-----+---------+----------------+
+3 rows in set (0.0072 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > insert into venta(fecha, idcliente) values("2025-10-27", 1);
+ERROR: 1142 (42000): INSERT command denied to user 'prueba'@'localhost' for table 'venta'
+ MySQL  localhost:3306 ssl  tbd2  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 12
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > create user "usuarioroles"@"localhost" identified by "33";
+Query OK, 0 rows affected (0.0265 sec)
+ MySQL  localhost:3306 ssl  SQL > create role "segundaunidad";
+Query OK, 0 rows affected (0.0100 sec)
+ MySQL  localhost:3306 ssl  SQL > grant all on tbd2.* to "segundaunidad";
+Query OK, 0 rows affected (0.0087 sec)
+ MySQL  localhost:3306 ssl  SQL > grant "segundaunidad" to "usuarioroles"@"localhost";
+Query OK, 0 rows affected (0.0075 sec)
+ MySQL  localhost:3306 ssl  SQL > \connect --mc usuarioroles@localhost
+Creating a Classic session to 'usuarioroles@localhost'
+Please provide the password for 'usuarioroles@localhost': **
+Save password for 'usuarioroles@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Error during auto-completion cache update: Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
+Closing old connection...
+Your MySQL connection id is 13
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 14
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd2;
+Default schema set to `tbd2`.
+Fetching global names, object names from `tbd2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd2  SQL > show tables;
++----------------+
+| Tables_in_tbd2 |
++----------------+
+| asignatura     |
+| cliente        |
+| detallehorario |
+| estudiante     |
+| horario        |
+| producto       |
+| venta          |
+| ventadetalle   |
++----------------+
+8 rows in set (0.0029 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > desc prueba;
+ERROR: 1146 (42S02): Table 'tbd2.prueba' doesn't exist
+ MySQL  localhost:3306 ssl  tbd2  SQL > create table prueba(nombre varchar(20), valor int);
+Query OK, 0 rows affected (0.0384 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > desc prueba;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| nombre | varchar(20) | YES  |     | NULL    |       |
+| valor  | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0041 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > insert into prueba values("Juan",100),("Ana",500);
+Query OK, 2 rows affected (0.0139 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from prueba;
++--------+-------+
+| nombre | valor |
++--------+-------+
+| Juan   |   100 |
+| Ana    |   500 |
++--------+-------+
+2 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > start transaction;
+Query OK, 0 rows affected (0.0008 sec)
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL > update prueba set valor = valor + 100 where nombre = "Juan";
+Query OK, 1 row affected (0.0011 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL >  update prueba set valor = valor - 100 where nombre = "Ana";
+Query OK, 1 row affected (0.0012 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL > commit;
+Query OK, 0 rows affected (0.0076 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > start transaction;
+Query OK, 0 rows affected (0.0007 sec)
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL > update prueba set valor = valor + 100 where nombre = "Juan";
+Query OK, 1 row affected (0.0010 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL > update prueba set valor = valor - 100 where nombre = "Ana";
+Query OK, 1 row affected (0.0011 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  ★  SQL > rollback;
+Query OK, 0 rows affected (0.0044 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL >
